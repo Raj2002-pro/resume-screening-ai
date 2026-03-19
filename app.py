@@ -26,13 +26,15 @@ def load_data():
         st.error("❌ Dataset file not found! Please check your GitHub repo structure.")
         return None
 
-   try:
-        # Remove 'lines=True' because your file is a standard JSON array
+    try:
+        # Standard JSON array loading (no lines=True)
         df = pd.read_json(file_path, encoding='utf-8')
         return df
     except Exception as e:
         st.error(f"❌ Error loading dataset: {e}")
         return None
+
+# This line must be at the very edge of the left side (0 spaces)
 df = load_data()
 
 if df is None:
