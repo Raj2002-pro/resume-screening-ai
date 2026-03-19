@@ -14,34 +14,34 @@ st.title("📄 Resume Screening AI")
 st.write("Upload or paste resume text and match it with job roles using AI 🚀")
 
 # -------------------------------
-# LOAD DATA (SAFE)
+# -------------------------------
+# LOAD DATA (SAFE & AUTO-DETECT)
 # -------------------------------
 @st.cache_data
 def load_data():
-    # This creates a path relative to the script location, not the terminal
     base_path = os.path.dirname(__file__)
     file_path = os.path.join(base_path, "data", "resumes_dataset.jsonl")
 
     if not os.path.exists(file_path):
-        st.error("❌ Dataset file not found! Please check your GitHub repo structure.")
+        st.error(f"❌ Dataset file not found at: {file_path}")
         return None
 
-try:
-        # Strategy 1: Try reading as a standard JSON array
-        df = pd.read_json(file_path, encoding='utf-8')
+    try:
+        # Try Strategy 1: Standard JSON Array
+        return pd.read_json(file_path, encoding='utf-8')
     except Exception:
         try:
-            # Strategy 2: Try reading as JSON Lines if Strategy 1 fails
-            df = pd.read_json(file_path, lines=True, encoding='utf-8')
+            # Try Strategy 2: JSON Lines (JSONL)
+            return pd.read_json(file_path, lines=True, encoding='utf-8')
         except Exception as e:
-            st.error(f"❌ Critical Error: Could not parse JSON. Details: {e}")
+            st.error(f"❌ Critical Error loading dataset: {e}")
             return None
-    return df
 
-# This line must be at the very edge of the left side (0 spaces)
+# Global variable - must have NO indentation (start at the very left)
 df = load_data()
 
-if df is None:
+if df is None or df.empty:
+    st.error("Dataset is empty or could not be loaded. Please check your data file.")
     st.stop()
 
 # -------------------------------
