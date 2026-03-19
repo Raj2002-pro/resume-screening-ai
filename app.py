@@ -27,8 +27,7 @@ def load_data():
         return None
 
     try:
-        # Added explicit encoding to prevent cloud-server issues
-        df = pd.read_json(file_path, lines=True, encoding='utf-8')
+        df = pd.read_json(file_path, encoding='utf-8')
         return df
     except Exception as e:
         st.error(f"❌ Error loading dataset: {e}")
