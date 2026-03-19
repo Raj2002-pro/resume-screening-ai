@@ -18,14 +18,17 @@ st.write("Upload or paste resume text and match it with job roles using AI 🚀"
 # -------------------------------
 @st.cache_data
 def load_data():
-    file_path = "data/resumes_dataset.jsonl"
+    # This creates a path relative to the script location, not the terminal
+    base_path = os.path.dirname(__file__)
+    file_path = os.path.join(base_path, "data", "resumes_dataset.jsonl")
 
     if not os.path.exists(file_path):
         st.error("❌ Dataset file not found! Please check your GitHub repo structure.")
         return None
 
     try:
-        df = pd.read_json(file_path, lines=True)
+        # Added explicit encoding to prevent cloud-server issues
+        df = pd.read_json(file_path, lines=True, encoding='utf-8')
         return df
     except Exception as e:
         st.error(f"❌ Error loading dataset: {e}")
