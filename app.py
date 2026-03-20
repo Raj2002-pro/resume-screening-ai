@@ -1,5 +1,4 @@
 import streamlit as st
-st.set_option('server.headless', True)
 import pandas as pd
 import os
 from sklearn.feature_extraction.text import TfidfVectorizer
