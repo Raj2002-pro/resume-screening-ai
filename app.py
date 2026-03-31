@@ -54,13 +54,16 @@ st.markdown('<div class="navbar"><h2>📄 AI Resume Screening System</h2></div>'
 # -------------------------------
 @st.cache_data
 def load_data():
-	file_path = "data/Resume_small.csv"
-
-	if not os.path.exists(file_path):
-		st.error("Dataset not found ❌")
-		return None
-
-	df = pd.read_csv(file_path)
+    # Get the directory where app.py is located
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    file_path = os.path.join(script_dir, "data", "Resume_small.csv")
+    
+    if not os.path.exists(file_path):
+        st.error("Dataset not found ❌")
+        return None
+    
+    df = pd.read_csv(file_path)
+    # ... rest of the code
 
 	# ✅ Clean column names (important)
 	df.columns = df.columns.str.strip()
